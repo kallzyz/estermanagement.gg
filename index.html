@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090a10">
+<meta name="description" content="Ester — o bot completo para Discord. Tickets, loja, comandos, embeds e gerenciamento pelo painel web.">
+<title>Ester — Discord Bot</title>
+<style>
+:root{
+  --bg:#08090e;--panel:#101119;--panel2:#141620;--line:#272a37;
+  --text:#f4f5fb;--muted:#969baa;--accent:#626df0;--accent2:#7480ff;
+  --green:#43d18b;--shadow:0 30px 90px rgba(0,0,0,.42)
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}a{text-decoration:none;color:inherit}button{font:inherit}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(700px 500px at 75% 0%,rgba(98,109,240,.13),transparent 65%)}
+.container{width:min(1160px,calc(100% - 40px));margin:auto}.top{height:70px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20;background:rgba(8,9,14,.82);backdrop-filter:blur(18px)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:850}.brand img{width:36px;height:36px;border-radius:10px;object-fit:cover;display:block;border:1px solid #303444}.brand-name{letter-spacing:-.02em}.online{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px rgba(67,209,139,.8);display:inline-block;margin-left:3px}
+.nav{display:flex;align-items:center;gap:6px}.nav a{color:#aeb2c2;font-size:14px;padding:9px 12px;border-radius:9px}.nav a:hover{background:#151721;color:#fff}.nav .login{border:1px solid var(--line);background:#12141c;color:#fff;font-weight:750}
+.hero{padding:85px 0 70px;display:grid;grid-template-columns:1.05fr .95fr;gap:70px;align-items:center}.badge{display:inline-flex;align-items:center;gap:8px;border:1px solid #303447;background:#11141d;color:#b9beff;border-radius:999px;padding:7px 11px;font-size:11px;font-weight:850;letter-spacing:.08em;text-transform:uppercase}.badge .online{margin:0}
+h1{font-size:clamp(46px,6vw,78px);line-height:.98;letter-spacing:-.065em;margin:18px 0 22px}h1 span{color:#7280ff}.hero-copy{color:#a1a6b6;font-size:18px;line-height:1.7;max-width:620px;margin:0 0 29px}.actions{display:flex;gap:12px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:11px;padding:14px 19px;font-weight:800;cursor:pointer;transition:.18s ease}.btn-primary{background:var(--accent);color:#fff;border:1px solid transparent;box-shadow:0 14px 32px rgba(98,109,240,.22)}.btn-primary:hover{background:var(--accent2);transform:translateY(-1px)}.btn-secondary{background:#11131b;color:#e9ebf4;border:1px solid var(--line)}.btn-secondary:hover{background:#171a24}
+.profile-card{position:relative;border:1px solid #2b2e3b;background:#0e1017;border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}.profile-banner{height:180px;width:100%;object-fit:cover;display:block;filter:grayscale(1) contrast(1.05);background:#191b23}.profile-body{padding:0 25px 26px}.avatar-wrap{margin-top:-54px;position:relative;width:108px;height:108px}.avatar{width:108px;height:108px;border-radius:50%;object-fit:cover;display:block;border:6px solid #0e1017;background:#0e1017}.status{position:absolute;right:4px;bottom:5px;width:22px;height:22px;border-radius:50%;background:var(--green);border:4px solid #0e1017}.profile-title{font-size:25px;font-weight:850;margin:14px 0 4px;letter-spacing:-.03em}.handle{color:#777d90;font-size:13px}.profile-bio{color:#a0a5b4;line-height:1.55;font-size:13px;margin:19px 0}.profile-tags{display:flex;gap:7px;flex-wrap:wrap}.tag{border:1px solid #2a2e3a;background:#141720;border-radius:8px;padding:7px 9px;color:#b7bbca;font-size:11px;font-weight:700}
+.section{padding:75px 0}.section-title{font-size:37px;letter-spacing:-.045em;margin:0 0 10px}.section-sub{margin:0;color:var(--muted);line-height:1.65;max-width:670px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}.card{border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,#13151e,#101219);padding:23px;min-height:190px;transition:.2s}.card:hover{transform:translateY(-3px);border-color:#373b4e}.icon{width:40px;height:40px;display:grid;place-items:center;border-radius:11px;background:#1a1d29;border:1px solid #2b2f3d;font-size:19px;margin-bottom:18px}.card h3{margin:0 0 8px;font-size:17px}.card p{margin:0;color:#858b9d;font-size:13px;line-height:1.6}.wide{grid-column:span 2}
+.workflow{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}.step{border:1px solid var(--line);background:#10121a;border-radius:15px;padding:23px}.num{color:#7b86ff;font-weight:900;font-size:12px;letter-spacing:.08em}.step h3{margin:9px 0 7px;font-size:17px}.step p{margin:0;color:#858b9d;font-size:13px;line-height:1.55}
+.cta{margin:10px auto 75px;border:1px solid #30354b;border-radius:21px;padding:46px 40px;background:radial-gradient(500px 220px at 75% 15%,rgba(98,109,240,.2),transparent 70%),#11141d;display:flex;align-items:center;justify-content:space-between;gap:30px}.cta h2{margin:0 0 9px;font-size:31px;letter-spacing:-.035em}.cta p{margin:0;color:#9096a8;line-height:1.55}
+footer{border-top:1px solid var(--line);padding:28px 0;color:#686f82;font-size:12px;display:flex;justify-content:space-between}.modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.72);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px}.modal.open{display:flex}.modal-box{width:min(450px,100%);background:#12141c;border:1px solid #303444;border-radius:17px;padding:25px;box-shadow:0 30px 100px #000}.modal-box h3{margin:0 0 8px;font-size:21px}.modal-box p{color:#858b9e;font-size:13px;line-height:1.6}.close{float:right;border:0;background:none;color:#7c8293;font-size:25px;cursor:pointer}.oauth{display:block;margin:18px 0;background:#0b0d13;border:1px solid #292d39;border-radius:10px;padding:13px;color:#7f8698;font-size:11px;word-break:break-all}
+@media(max-width:850px){.container{width:min(100% - 28px,600px)}.top{padding:0 14px}.nav a:not(.login){display:none}.hero{grid-template-columns:1fr;padding:58px 0 45px;gap:42px}.profile-card{max-width:560px;margin:auto}.grid,.workflow{grid-template-columns:1fr}.wide{grid-column:auto}.section{padding:55px 0}.section-title{font-size:31px}.cta{display:block;padding:34px 25px;margin-bottom:55px}.cta .btn{margin-top:20px;width:100%}footer{display:block;line-height:2}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;width:100%">
+    <a class="brand" href="#inicio"><img src="ester-avatar.png" alt="Ester"><span class="brand-name">Ester</span><span class="online"></span></a>
+    <nav class="nav">
+      <a href="#recursos">Recursos</a><a href="#como-funciona">Como funciona</a><a href="#painel">Painel</a>
+      <a class="login" href="SEU_LINK_DO_PAINEL">Painel Web</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+  <section class="hero container">
+    <div>
+      <div class="badge"><span class="online"></span> Bot completo para Discord</div>
+      <h1>Seu servidor.<br><span>Do seu jeito.</span></h1>
+      <p class="hero-copy">A Ester reúne tudo o que seu servidor precisa em um só bot: comandos, tickets, loja, embeds, automações e um painel web para você configurar tudo sem complicação.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="SEU_LINK_OAUTH2" target="_blank" rel="noopener">＋ Adicionar ao Discord</a>
+        <a class="btn btn-secondary" href="#recursos">Conhecer recursos ↓</a>
+      </div>
+    </div>
+
+    <div class="profile-card">
+      <img class="profile-banner" src="ester-banner.jpg" alt="Banner da Ester">
+      <div class="profile-body">
+        <div class="avatar-wrap"><img class="avatar" src="ester-avatar.png" alt="Ester"><span class="status"></span></div>
+        <div class="profile-title">Ester — Management <span style="color:#7480ff">✓</span></div>
+        <div class="handle">Ester - Management#4340</div>
+        <p class="profile-bio">Um bot completo para administrar, automatizar e deixar seu servidor com a sua identidade.</p>
+        <div class="profile-tags"><span class="tag">⚡ Comandos</span><span class="tag">🎫 Tickets</span><span class="tag">🛍️ Loja</span><span class="tag">🎨 Embeds</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container" id="recursos">
+    <h2 class="section-title">Tudo que você precisa.</h2>
+    <p class="section-sub">A Ester foi feita para cuidar da parte chata enquanto você cuida da comunidade. Ative os módulos que quiser e personalize tudo pelo painel.</p>
+    <div class="grid">
+      <article class="card"><div class="icon">🎫</div><h3>Sistema de Tickets</h3><p>Crie atendimentos privados, organize suporte e configure categorias, cargos e mensagens.</p></article>
+      <article class="card"><div class="icon">🛍️</div><h3>Lojinha</h3><p>Monte produtos, planos e preços para vender dentro do seu servidor de forma organizada.</p></article>
+      <article class="card"><div class="icon">⚡</div><h3>Comandos</h3><p>Ferramentas de utilidade, moderação e gerenciamento para facilitar o dia a dia.</p></article>
+      <article class="card"><div class="icon">🎨</div><h3>Criador de Embeds</h3><p>Monte mensagens bonitas com título, descrição, imagem, cor e outros elementos.</p></article>
+      <article class="card"><div class="icon">👋</div><h3>Entradas e Saídas</h3><p>Personalize mensagens de entrada e saída para deixar cada novo membro bem recebido.</p></article>
+      <article class="card"><div class="icon">🔐</div><h3>Permissões</h3><p>Controle exatamente quem pode configurar a Ester e quais canais o bot deve ignorar.</p></article>
+      <article class="card wide"><div class="icon">⚙️</div><h3>Painel Web completo</h3><p>Chega de editar arquivos ou mexer no código. Escolha o servidor e configure os recursos da Ester diretamente pelo navegador.</p></article>
+    </div>
+  </section>
+
+  <section class="section container" id="como-funciona">
+    <h2 class="section-title">Simples de configurar.</h2>
+    <p class="section-sub">Você adiciona a Ester, escolhe o servidor e faz tudo pelo painel.</p>
+    <div class="workflow">
+      <article class="step"><div class="num">01 / ADICIONE</div><h3>Coloque a Ester no servidor</h3><p>Use o botão de convite e autorize as permissões necessárias.</p></article>
+      <article class="step"><div class="num">02 / CONFIGURE</div><h3>Abra o painel web</h3><p>Entre com sua conta Discord e escolha o servidor que deseja administrar.</p></article>
+      <article class="step"><div class="num">03 / PERSONALIZE</div><h3>Deixe com a sua cara</h3><p>Ative módulos, configure tickets, loja, embeds, permissões e muito mais.</p></article>
+    </div>
+  </section>
+
+  <section class="section container" id="painel" style="padding-top:25px">
+    <div class="cta">
+      <div><h2>Conheça o painel da Ester.</h2><p>Gerencie seu bot de qualquer lugar, sem precisar mexer no código.</p></div>
+      <a class="btn btn-primary" href="SEU_LINK_DO_PAINEL">Abrir painel →</a>
+    </div>
+  </section>
+</main>
+
+<footer class="container"><span>© 2026 Ester — Discord Bot</span><span>Desenvolvido para comunidades.</span></footer>
+
+</body>
+</html>
